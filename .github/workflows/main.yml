@@ -16,7 +16,7 @@ jobs:
       - name: Read users.json
         id: read-json
         run: |
-          echo "::set-output name=json::$(cat users.json)"
+          cat users.json
 
       - name: Generate Table
         id: generate-table
@@ -25,7 +25,7 @@ jobs:
           echo "| -------- | ---- | -------- | ------- | ------- | --------- | -------------------- | --------------------- |" >> table.md
           
           # Parsing JSON and adding data to the table
-          echo "${{ steps.read-json.outputs.json }}" | jq -r '.[] | "| \(.login) | \(.name) | \(.location) | \(.company) | \(.twitterUsername) | \(.followers) | \(.privateContributions) | \(.publicContributions) |"' >> table.md
+          jq -r '.[] | "| \(.login) | \(.name) | \(.location) | \(.company) | \(.twitterUsername) | \(.followers) | \(.privateContributions) | \(.publicContributions) |"' users.json >> table.md
 
       - name: Update README
         run: |
